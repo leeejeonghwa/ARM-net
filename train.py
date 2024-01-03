@@ -43,7 +43,7 @@ def get_args():
         parser.add_argument('--exp_name', default='test', type=str, help='exp name for log & checkpoint')
         # model config
         parser.add_argument('--model', default='armnet', type=str, help='model type, afn, arm etc')
-        parser.add_argument('--nfeat', type=int, default=61, help='the number of features')
+        parser.add_argument('--nfeat', type=int, default=12, help='the number of features')
         parser.add_argument('--nfield', type=int, default=10, help='the number of fields')
         parser.add_argument('--nemb', type=int, default=10, help='embedding size')
         parser.add_argument('--k', type=int, default=3, help='interaction order for hofm/dcn/cin/gcn/gat/xdfm')
@@ -68,7 +68,7 @@ def get_args():
         return args
 
 # CSV 파일 경로를 지정
-csv_file_path ="JDT.csv"
+csv_file_path ="ProjectA.csv"
 
 # CSV 파일을 데이터프레임으로 읽어오기
 # CSV 파일을 데이터프레임으로 읽어오기 (첫 번째 행을 제외)
@@ -110,7 +110,7 @@ for train_index, val_index in kf.split(X_train):
 
 
     # DataLoader를 사용하여 데이터로더 생성
-    batch_size = 64
+    batch_size = 32
     train_dataset = TensorDataset(X_fold_train_resampled_tensor, y_fold_train_resampled_tensor)
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 
@@ -132,7 +132,7 @@ for train_index, val_index in kf.split(X_train):
     cudnn.benchmark = True
 
     # 학습
-    n_epochs = 10
+    n_epochs = 100
     report_frequency = max(len(train_loader) // (batch_size * 5), 1)  # 0으로 나누는 것을 방지하기 위해 최소값을 1로 설정
     for epoch in range(1, n_epochs + 1):
         # tqdm을 사용하여 진행 상황을 시각적으로 표시
